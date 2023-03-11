@@ -4,6 +4,11 @@
     color: #64adff;
 }
 
+.red_motto_span {
+    font-style: italic;
+    color: #f90000;
+}
+
 .subhead {
     text-align: center;
 }
