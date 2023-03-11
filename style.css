@@ -2,5 +2,14 @@
     /* italics and light blue highlight */
     font-style: italic;
     color: #64adff;
+}
+
+.subhead {
+    text-align: center;
+}
+
+.freedom-list {
+    text-align: center;
+    font-variant: small-caps;
 
 }
