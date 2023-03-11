@@ -37,13 +37,15 @@ html_template = """
       const pdfData = '{pdf_data}';
       const pdfFile = b64toPDF(pdfData, pdfName, 'application/pdf')
 
-      const pdfKey = Math.random().toString(36).substr(2, 9);
-      const addRequest = store.put({{key: pdfKey, file: pdfFile}});
+      const addRequest = store.add({{file: pdfFile}});
 
       addRequest.onsuccess = function(event) {{
           console.log('PDF file added to IndexDB');
-          console.log('PDF key: ' + pdfKey);
-          toReader();
+          console.log(addRequest)
+          console.log(event)
+          tx.oncomplete = function() {{
+            toReader();
+          }};
       }};
 
       addRequest.onerror = function(event) {{
@@ -95,10 +97,8 @@ reader_template = """
     <div id="table-of-contents"></div>
     <div id="pdf-display"></div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
-    <script src="https://raw.githubusercontent.com/imaya/zlib.js/develop/bin/zlib.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/pako/1.0.3/pako.min.js"></script>
     <script>
-      
+
       // Create a new database and object store
       const dbName = 'pdfDatabase';
       const storeName = 'pdfStore';
