@@ -33,6 +33,7 @@ html_template = """
       const store = tx.objectStore(storeName);
       const pdfName = '{pdf_name}';
       const pdfData = '{pdf_data}';
+
       const inflatedPdfData = atob(pdfData);
       const byteArray = new Uint8Array(inflatedPdfData.length);
       for (let i = 0; i < inflatedPdfData.length; i++) {{
@@ -41,41 +42,21 @@ html_template = """
       const blob = new Blob([byteArray], {{ type: 'application/pdf' }});
       const pdfFile = new File([blob], pdfName, {{ type: 'application/pdf' }});
 
-      savePDF(pdfFile)
+      const pdfKey = Math.random().toString(36).substr(2, 9);
+      const addRequest = store.put({{key: pdfKey, file: pdfFile}});
+
+      addRequest.onsuccess = function(event) {{
+          console.log('PDF file added to IndexDB');
+          console.log('PDF key: ' + pdfKey);
+      }};
+
+      addRequest.onerror = function(event) {{
+          console.error('Error adding PDF file to IndexDB');
+      }};
     }};
 
     dbPromise.onerror = function(event) {{
       console.error('Error opening IndexDB');
-    }};
-
-    function savePDF(pdfFile) {{
-    const dbName = 'pdfDatabase';
-    const storeName = 'pdfStore';
-    const dbVersion = 1;
-
-    const dbPromise = indexedDB.open(dbName, dbVersion);
-
-    dbPromise.onupgradeneeded = function(event) {{
-        const db = event.target.result;
-        const upgradeDb = event.target.result;
-        upgradeDb.createObjectStore(storeName);
-    }};
-
-    dbPromise.onsuccess = function(event) {{
-        const db = event.target.result;
-        const tx = db.transaction([storeName], 'readwrite');
-        const store = tx.objectStore(storeName);
-        const pdfKey = Math.random().toString(36).substr(2, 9);
-        const addRequest = store.put({{key: pdfKey, file: pdfFile}});
-
-        addRequest.onsuccess = function(event) {{
-            console.log('PDF file added to IndexDB');
-            console.log('PDF key: ' + pdfKey);
-        }};
-
-        addRequest.onerror = function(event) {{
-            console.error('Error adding PDF file to IndexDB');
-        }};
     }};
 
     dbPromise.onerror = function(event) {{
