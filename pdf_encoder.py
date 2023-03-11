@@ -97,6 +97,7 @@ reader_template = """
     <div id="table-of-contents"></div>
     <div id="pdf-display"></div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/pako/1.0.3/pako.min.js"></script>
     <script>
 
       // Create a new database and object store
