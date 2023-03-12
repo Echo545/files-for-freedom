@@ -132,13 +132,23 @@ reader_template = """
         align-items: center;
         justify-content: center;
       }}
+
+      .btn {{
+        max-width: 200px;
+        margin: 0 auto;
+      }}
+
+      #refresh {{
+        margin-bottom: 5px;
+        margin-top:5px;
+      }}
     </style>
 
     <div class="container">
 
       <h1>Offline Reader</h1>
       <hr>
-      <button class="btn btn-primary" onclick="displayTableOfContents()">Refresh</button>
+      <button class="btn btn-primary" id="refresh" onclick="displayTableOfContents()">Refresh</button>
       <button class="btn btn-danger" onclick="deleteAll()">Delete All</button>
 
       <h5 style="margin-top: 25px">Available Documents</h5>
