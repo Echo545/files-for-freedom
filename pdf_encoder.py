@@ -106,7 +106,8 @@ reader_template = """
     <div class="container">
 
       <h1>Offline Reader</h1>
-      <button class="btn btn-primary" onclick="displayTableOfContents()">Refresh Table of Contents</button>
+      <hr>
+      <button class="btn btn-primary" onclick="displayTableOfContents()">Refresh</button>
       <button class="btn btn-danger" onclick="deleteAll()">Delete All</button>
       <div id="table-of-contents"></div>
       <div id="pdf-display"></div>
