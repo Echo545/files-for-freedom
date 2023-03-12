@@ -10,8 +10,8 @@ To learn about the mission behind the Files for Freedom movement, the technical 
 ## How it works
 ### Host:
 ![dev dia](imgs/jamdev.jpg)
-* Run the python tool for each target pdf. The tool generates a _/[downloader page].html_ and a single _/[reader].html_
-* Then all the host has to do is put the newly generated HTML in their web server and share the URL.
+* The host runs `pdf_encoder.py` for each target pdf. The tool generates a _/[downloader page].html_ and a single _/[reader].html_
+* All the host has to do after that is put the newly generated HTML files into their web server and share the URL for their downloader page.
 
 ### User:
 ![user dia](imgs/jamuser.jpg)
