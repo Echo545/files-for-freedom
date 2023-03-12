@@ -1,10 +1,13 @@
 # The Docker image that will be used to build your app
 image: filesforfreedom
-include:
-  template: Jobs/Code-Quality.gitlab-ci.yml
 
 before_script:
   - npm i -g firebase-tools
 
-script:
-  - firebase deploy --token $FIREBASE_TOKEN
+prod-hosting:
+  stage: deploy
+  script:
+    - firebase deploy --token $FIREBASE_TOKEN
+  environment:
+    name: production
+    url: https://files-for-freedom.web.app/
