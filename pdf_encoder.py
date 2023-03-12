@@ -6,7 +6,7 @@ import random
 import string
 import zlib
 
-html_template = """
+download_template = """
 <!DOCTYPE html>
 <html>
 <head>
@@ -88,6 +88,7 @@ reader_template = """
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
     <title>Reader</title>
 
     <script>
@@ -101,12 +102,17 @@ reader_template = """
 
   </head>
   <body>
-    <h1>Offline PDF Reader</h1>
-    <input type="file" id="pdf-file-input">
-    <button onclick="displayTableOfContents()">Refresh Table of Contents</button>
-    <button onclick="deleteAll()">Delete All</button>
-    <div id="table-of-contents"></div>
-    <div id="pdf-display"></div>
+
+    <div class="container">
+
+      <h1>Offline Reader</h1>
+      <button class="btn btn-primary" onclick="displayTableOfContents()">Refresh Table of Contents</button>
+      <button class="btn btn-danger" onclick="deleteAll()">Delete All</button>
+      <div id="table-of-contents"></div>
+      <div id="pdf-display"></div>
+
+    </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/pako/1.0.3/pako.min.js"></script>
     <script>
@@ -184,7 +190,9 @@ reader_template = """
             const tableCell2 = document.createElement('td');
             const tableCell3 = document.createElement('td');
             const viewButton = document.createElement('button');
+            viewButton.className = 'btn btn-primary btn-sm';
             const deleteButton = document.createElement('button');
+            deleteButton.className = 'btn btn-danger btn-sm';
             tableCell1.textContent = pdfFile.file.name;
             viewButton.textContent = 'View';
             viewButton.addEventListener('click', function() {{
@@ -204,6 +212,9 @@ reader_template = """
 
             tableOfContents.innerHTML = '';
             tableOfContents.appendChild(table);
+
+            const pdf_view = document.getElementById('pdf-display');
+            pdf_view.innerHTML = '';
         }};
 
         getRequest.onerror = function(event) {{
@@ -386,7 +397,7 @@ def embed_pdf_in_html(pdf_file_path, downloader_name):
     base64_pdf_data = base64.b64encode(compressed_pdf_data).decode()
 
     pdf_name = os.path.basename(pdf_file_path)
-    html_data = html_template.format(pdf_name=pdf_name, pdf_data=base64_pdf_data, reader_name=reader_name)
+    html_data = download_template.format(pdf_name=pdf_name, pdf_data=base64_pdf_data, reader_name=reader_name)
 
     # Save downloader page
     with open(f'public/{downloader_name}.html', 'w') as f:
