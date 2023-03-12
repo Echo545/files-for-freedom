@@ -14,12 +14,21 @@ download_template = """
   <title>Downloader</title>
 </head>
 <body>
+  <style>
+    h1 {{
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }}
+  </style>
+
   <h1>Download in Progress...</h1>
 
   <script>
     const dbName = 'pdfDatabase';
     const storeName = 'pdfStore';
-    const dbVersion = 1;
+    const dbVersion = 2;
 
     const dbPromise = indexedDB.open(dbName, dbVersion);
 
@@ -50,15 +59,13 @@ download_template = """
 
       addRequest.onerror = function(event) {{
           console.error('Error adding PDF file to IndexDB');
+          console.log(event)
       }};
     }};
 
     dbPromise.onerror = function(event) {{
       console.error('Error opening IndexDB');
-    }};
-
-    dbPromise.onerror = function(event) {{
-        console.error('Error opening IndexDB');
+      console.log(event)
     }};
 
     function toReader() {{
@@ -103,12 +110,40 @@ reader_template = """
   </head>
   <body>
 
+    <style>
+      .container {{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }}
+
+      .container > * {{
+        margin: 2px;
+        text-align: center;
+      }}
+
+      .inlineview {{
+        margin-left: 15px;
+      }}
+
+      #table-of-contents {{
+        margin: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }}
+    </style>
+
     <div class="container">
 
       <h1>Offline Reader</h1>
       <hr>
       <button class="btn btn-primary" onclick="displayTableOfContents()">Refresh</button>
       <button class="btn btn-danger" onclick="deleteAll()">Delete All</button>
+
+      <h5 style="margin-top: 25px">Available Documents</h5>
+      <hr>
+
       <div id="table-of-contents"></div>
       <div id="pdf-display"></div>
 
@@ -173,17 +208,6 @@ reader_template = """
 
             const tableOfContents = document.getElementById('table-of-contents');
             const table = document.createElement('table');
-            const headerRow = document.createElement('tr');
-            const headerCell1 = document.createElement('th');
-            const headerCell2 = document.createElement('th');
-            const headerCell3 = document.createElement('th');
-            headerCell1.textContent = 'PDF Name';
-            headerCell2.textContent = 'View PDF';
-            headerCell3.textContent = 'Delete PDF';
-            headerRow.appendChild(headerCell1);
-            headerRow.appendChild(headerCell2);
-            headerRow.appendChild(headerCell3);
-            table.appendChild(headerRow);
 
             pdfFiles.forEach(function(pdfFile) {{
             const tableRow = document.createElement('tr');
@@ -191,7 +215,7 @@ reader_template = """
             const tableCell2 = document.createElement('td');
             const tableCell3 = document.createElement('td');
             const viewButton = document.createElement('button');
-            viewButton.className = 'btn btn-primary btn-sm';
+            viewButton.className = 'btn btn-info btn-sm inlineview';
             const deleteButton = document.createElement('button');
             deleteButton.className = 'btn btn-danger btn-sm';
             tableCell1.textContent = pdfFile.file.name;
