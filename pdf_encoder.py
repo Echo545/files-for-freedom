@@ -264,8 +264,8 @@ reader_template = """
             const blob = new Blob([deflate], {{ type: 'application/pdf' }});
             const url = URL.createObjectURL(blob);
 
-            const embed = document.createElement('embed');
-            embed.setAttribute('src', url);
+            const embed = document.createElement('object');
+            embed.setAttribute('data', url);
             embed.setAttribute('type', 'application/pdf');
             embed.setAttribute('width', '100%');
             embed.setAttribute('height', '800px');
