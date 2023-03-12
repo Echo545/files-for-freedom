@@ -3,11 +3,24 @@
 <html>
   <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PDF Upload and Storage</title>
+
+    <script>
+      if ('serviceWorker' in navigator) {
+        console.log('Found service worker')
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/service-worker.js');
+        });
+      }
+    </script>
+
   </head>
   <body>
     <h1>PDF Upload and Storage</h1>
     <input type="file" id="pdf-file-input">
+    <button onclick="savePage()">Save Page to DB</button>
     <button onclick="savePDF()">Save PDF to IndexDB</button>
     <button onclick="displayTableOfContents()">Display Table of Contents</button>
     <button onclick="deleteAll()">Delete All</button>
@@ -24,7 +37,29 @@
 
       dbPromise.onupgradeneeded = function(event) {
         const db = event.target.result;
-        const store = db.createObjectStore(storeName, {keyPath: 'id', autoIncrement: true});
+        db.objectStoreNames.contains(storeName) || db.createObjectStore(storeName, {keyPath: 'id', autoIncrement: true});
+        db.objectStoreNames.contains(pageName) || db.createObjectStore(pageName, {keyPath: 'url'});
+      }
+
+      function savePage(page) {
+        const db = dbPromise.result;
+        var html = document.documentElement.innerHTML;
+        var page = {url: 'reader.html', html: html};
+        const transaction = db.transaction([pageName], 'readwrite');
+        const objectStore = transaction.objectStore(pageName);
+        const saveRequest = objectStore.add(page);
+
+        saveRequest.onsuccess = function(event) {
+          console.log('PDF saved to IndexDB');
+        };
+
+        saveRequest.onerror = function(event) {
+          console.error('Error saving page to IndexDB');
+        };
+
+        transaction.oncomplete = function(event) {
+          console.log('Transaction complete');
+        };
       }
 
       // Save the PDF to IndexDB
