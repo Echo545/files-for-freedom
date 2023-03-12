@@ -136,7 +136,7 @@ reader_template = """
 
     <div class="container">
 
-      <h1>Offline Reader</h1>
+      <h1>My Reading List</h1>
       <hr>
 
       <p>Bookmark this page and come back anytime for offline reading of all saved documents.</p>
