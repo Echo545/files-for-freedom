@@ -152,7 +152,7 @@ reader_template = """
       <div id="pdf-display"></div>
 
     </div>
-    
+
     <script src="https://cdn.jsdelivr.net/pako/1.0.3/pako.min.js"></script>
     <script>
 
@@ -234,10 +234,13 @@ reader_template = """
         store.delete(pdfFile.id);
         tx.oncomplete = function() {{
             console.log(`PDF file '${{pdfFile.file.name}}' deleted from IndexDB`);
+            // remove all rows from table of contents
+            const tableOfContents = document.getElementById('table-of-contents');
+            tableOfContents.innerHTML = '';
             displayTableOfContents();
         }};
         tx.onerror = function(event) {{
-            console.error(`Error deleting PDF file '${{pdfFile.file.name}}' from IndexDB`);
+            console.log(`Error deleting PDF file '${{pdfFile.file.name}}' from IndexDB`);
         }};
     }}
 

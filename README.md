@@ -2,7 +2,7 @@
 
 Support free access to information using nothing more than your existing web server and a one-liner.
 
-To learn about the mission behind the Files for Freedom movement, and to see a live demo, visit (files-for-freedom.web.app)[https://files-for-freedom.web.app/]
+To learn about the mission behind the Files for Freedom movement, the technical details, and to see a live demo, visit [files-for-freedom.web.app](https://files-for-freedom.web.app/)
 
 ## How it works
 ### Host:
@@ -16,7 +16,7 @@ To learn about the mission behind the Files for Freedom movement, and to see a l
 * Then it will redirect the user to the _/[reader].html_ page
 
 ----
-## How to use it
+## Usage
 ```python3 pdf_encoder.py [pdf to encode] [downloader name]```
 
 ### Outputs description
