@@ -88,7 +88,7 @@ reader_template = """
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PDF Upload and Storage</title>
+    <title>Reader</title>
 
     <script>
       if ('serviceWorker' in navigator) {{
@@ -101,11 +101,9 @@ reader_template = """
 
   </head>
   <body>
-    <h1>PDF Upload and Storage</h1>
+    <h1>Offline PDF Reader</h1>
     <input type="file" id="pdf-file-input">
-    <button onclick="savePage()">Save Page to DB</button>
-    <button onclick="savePDF()">Save PDF to IndexDB</button>
-    <button onclick="displayTableOfContents()">Display Table of Contents</button>
+    <button onclick="displayTableOfContents()">Refresh Table of Contents</button>
     <button onclick="deleteAll()">Delete All</button>
     <div id="table-of-contents"></div>
     <div id="pdf-display"></div>
@@ -125,6 +123,12 @@ reader_template = """
         db.objectStoreNames.contains(pageName) || db.createObjectStore(pageName, {{keyPath: 'url'}});
       }}
 
+      // Display table of contents and save page upon page load
+      window.onload = function() {{
+        displayTableOfContents();
+        savePage();
+      }}
+
       function savePage(page) {{
         const db = dbPromise.result;
         var html = document.documentElement.innerHTML;
@@ -142,28 +146,6 @@ reader_template = """
         }};
 
         transaction.oncomplete = function(event) {{
-          console.log('Transaction complete');
-        }};
-      }}
-
-      // Save the PDF to IndexDB
-      function savePDF() {{
-        const pdfFileInput = document.getElementById('pdf-file-input');
-        const pdfFile = pdfFileInput.files[0];
-        const db = dbPromise.result;
-        const tx = db.transaction([storeName], 'readwrite');
-        const store = tx.objectStore(storeName);
-        const saveRequest = store.add({{file: pdfFile}});
-
-        saveRequest.onsuccess = function(event) {{
-          console.log('PDF saved to IndexDB');
-        }};
-
-        saveRequest.onerror = function(event) {{
-          console.error('Error saving PDF to IndexDB');
-        }};
-
-        tx.oncomplete = function(event) {{
           console.log('Transaction complete');
         }};
       }}
@@ -266,13 +248,9 @@ reader_template = """
 
         fileReader.onload = function() {{
             const pdfData = new Uint8Array(this.result);
-            console.log(pdfData.length)
             var deflate = window.pako.inflate(pdfData)
-            console.log(deflate.length)
             const blob = new Blob([deflate], {{ type: 'application/pdf' }});
             const url = URL.createObjectURL(blob);
-
-            console.log(url);
 
             const embed = document.createElement('embed');
             embed.setAttribute('src', url);
