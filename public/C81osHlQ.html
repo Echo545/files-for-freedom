@@ -38,11 +38,13 @@
         const db = event.target.result;
         db.objectStoreNames.contains(storeName) || db.createObjectStore(storeName, {keyPath: 'id', autoIncrement: true});
         db.objectStoreNames.contains(pageName) || db.createObjectStore(pageName, {keyPath: 'url'});
+
+        displayTableOfContents();
       }
 
       // Display table of contents and save page upon page load
       window.onload = function() {
-        displayTableOfContents();
+
         savePage();
       }
 
@@ -55,7 +57,7 @@
         const saveRequest = objectStore.add(page);
 
         saveRequest.onsuccess = function(event) {
-          console.log('PDF saved to IndexDB');
+          console.log('Page saved to IndexDB');
         };
 
         saveRequest.onerror = function(event) {
@@ -165,13 +167,9 @@
 
         fileReader.onload = function() {
             const pdfData = new Uint8Array(this.result);
-            console.log(pdfData.length)
             var deflate = window.pako.inflate(pdfData)
-            console.log(deflate.length)
             const blob = new Blob([deflate], { type: 'application/pdf' });
             const url = URL.createObjectURL(blob);
-
-            console.log(url);
 
             const embed = document.createElement('embed');
             embed.setAttribute('src', url);
