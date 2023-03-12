@@ -6,7 +6,6 @@ before_script:
 prod-hosting:
   stage: deploy
   script:
-    - npm build
     - firebase deploy --token $FIREBASE_TOKEN
   environment:
     name: production
