@@ -1,6 +1,5 @@
 # The Docker image that will be used to build your app
-image: node:12.13.0-alpine
-
+image: node:latest
 before_script:
   - npm i -g firebase-tools
 
