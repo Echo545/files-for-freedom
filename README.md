@@ -5,14 +5,14 @@ Support free access to information using nothing more than your existing web ser
 To learn about the mission behind the Files for Freedom movement, and to see a live demo, visit (files-for-freedom.web.app)[https://files-for-freedom.web.app/]
 
 ## How it works
-### Dev:
-![dev dia](imgs/jamdev.jpg)  
+### Host:
+![dev dia](imgs/jamdev.jpg)
 * Dev runs the python script for each pdf, it generates each _/[download].html_ and a single _/[reader].html_
 * All the dev has to do is put those files in a secret directory hosted on their website, or root
 
 ### User:
-![user dia](imgs/jamuser.jpg)  
-* User will go to a _/[download].html_ (which they know by word of mouth) and on that page the pdf will be put into cache  
+![user dia](imgs/jamuser.jpg)
+* User will go to a _/[download].html_ (which they know by word of mouth) and on that page the pdf will be put into cache
 * Then it will redirect the user to the _/[reader].html_ page
 
 ----
@@ -39,6 +39,6 @@ To learn about the mission behind the Files for Freedom movement, and to see a l
 ### Outputs file paths
 #### All public files need to be served
 #### Do **not** serve the .readerName
-* public/[downloader].html  
-* public/[randomstring readerfile].html  
-* .readerName  
+* public/[downloader].html
+* public/[randomstring readerfile].html
+* .readerName
