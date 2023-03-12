@@ -257,18 +257,18 @@ reader_template = """
 def embed_pdf_in_html(pdf_file_path, downloader_name):
     reader_name = None
 
-    # Make output dir if not exists
-    if not os.path.exists('output'):
-        os.mkdir('output')
+    # Make public dir if not exists
+    if not os.path.exists('public'):
+        os.mkdir('public')
 
     # Load reader_name if exists
-    if os.path.exists('output/.readerName'):
-        with open('output/.readerName', 'r') as f:
+    if os.path.exists('.readerName'):
+        with open('.readerName', 'r') as f:
             reader_name = f.read()
     else:
       # Create a new reader_name and save it to .readerName
       reader_name = generate_reader_name()
-      with open('output/.readerName', 'w') as f:
+      with open('.readerName', 'w') as f:
           f.write(reader_name)
 
 
@@ -282,18 +282,18 @@ def embed_pdf_in_html(pdf_file_path, downloader_name):
     html_data = html_template.format(pdf_name=pdf_name, pdf_data=base64_pdf_data, reader_name=reader_name)
 
     # Save downloader page
-    with open(f'output/{downloader_name}.html', 'w') as f:
+    with open(f'public/{downloader_name}.html', 'w') as f:
         f.write(html_data)
 
     # Save reader page if not exists
-    if not os.path.exists(f'output/{reader_name}.html'):
-      with open(f'output/{reader_name}.html', 'w') as f:
+    if not os.path.exists(f'public/{reader_name}.html'):
+      with open(f'public/{reader_name}.html', 'w') as f:
           f.write(reader_template.format())
-      print(f'Reader created: output/{reader_name}.html')
+      print(f'Reader created: public/{reader_name}.html')
     else:
-        print(f'Existing reader: output/{reader_name}.html')
+        print(f'Existing reader: public/{reader_name}.html')
 
-    print(f'New downloader created: output/{downloader_name}.html')
+    print(f'New downloader created: public/{downloader_name}.html')
 
 
 def generate_reader_name():
