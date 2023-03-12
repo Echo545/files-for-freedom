@@ -97,16 +97,6 @@ reader_template = """
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
     <title>Reader</title>
-
-    <script>
-      if ('serviceWorker' in navigator) {{
-        console.log('Found service worker')
-        window.addEventListener('load', function() {{
-          navigator.serviceWorker.register('/service-worker.js');
-        }});
-      }}
-    </script>
-
   </head>
   <body>
 
@@ -150,6 +140,7 @@ reader_template = """
       <hr>
 
       <p>Bookmark this page and come back anytime for offline reading of all saved documents.</p>
+      <p>Clearing your cache will delete all documents and the offline version of this page.</p>
 
       <button class="btn btn-primary" id="refresh" onclick="displayTableOfContents()">Refresh</button>
       <button class="btn btn-danger" onclick="deleteAll()">Delete All</button>
@@ -180,27 +171,6 @@ reader_template = """
         const db = event.target.result;
         db.objectStoreNames.contains(storeName) || db.createObjectStore(storeName, {{keyPath: 'id', autoIncrement: true}});
         db.objectStoreNames.contains(pageName) || db.createObjectStore(pageName, {{keyPath: 'url'}});
-      }}
-
-      function savePage(page) {{
-        const db = dbPromise.result;
-        var html = document.documentElement.innerHTML;
-        var page = {{url: 'reader.html', html: html}};
-        const transaction = db.transaction([pageName], 'readwrite');
-        const objectStore = transaction.objectStore(pageName);
-        const saveRequest = objectStore.add(page);
-
-        saveRequest.onsuccess = function(event) {{
-          console.log('PDF saved to IndexDB');
-        }};
-
-        saveRequest.onerror = function(event) {{
-          console.error('Error saving page to IndexDB');
-        }};
-
-        transaction.oncomplete = function(event) {{
-          console.log('Transaction complete');
-        }};
       }}
 
       // Display the table of contents
@@ -251,10 +221,6 @@ reader_template = """
 
             const pdf_view = document.getElementById('pdf-display');
             pdf_view.innerHTML = '';
-        }};
-
-        tx.oncomplete = function(event) {{
-            savePage();
         }};
 
         getRequest.onerror = function(event) {{
@@ -319,97 +285,6 @@ reader_template = """
 </html>
 """
 
-service_worker = """
-// Define the cache name and files to be cached
-const CACHE_NAME = 'freedom-files';
-const pageName = 'pages'
-const dbName = 'pdfDatabase'
-const urlsToCache = [
-  '/{readerFile}'
-];
-
-// Install event listener for service worker
-self.addEventListener('install', event => {{
-  // Perform installation steps
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => {{
-        console.log('Opened cache');
-        return cache.addAll(urlsToCache);
-      }})
-  );
-}});
-
-// Fetch event listener for service worker
-self.addEventListener('fetch', event => {{
-  event.respondWith(
-    caches.match(event.request)
-      .then(response => {{
-        // Cache hit - return response
-        if (response) {{
-          return response;
-        }}
-        // If user is offline, retrieve HTML page from IndexedDB
-        if (!navigator.onLine) {{
-          return getHtmlFromIndexedDb(event.request.url);
-        }}
-
-        // Clone the request
-        const fetchRequest = event.request.clone();
-
-        return fetch(fetchRequest)
-          .then(response => {{
-            // Check if we received a valid response
-            if (!response || response.status !== 200 || response.type !== 'basic') {{
-              return response;
-            }}
-
-            // Clone the response
-            const responseToCache = response.clone();
-
-            // Add the response to the cache
-            caches.open(CACHE_NAME)
-              .then(cache => {{
-                cache.put(event.request, responseToCache);
-              }});
-
-            return response;
-          }});
-      }})
-  );
-}});
-
-// Function to retrieve HTML page from IndexedDB
-function getHtmlFromIndexedDb(url) {{
-  return new Promise((resolve, reject) => {{
-    const request = indexedDB.open(dbName);
-
-    request.onerror = function(event) {{
-      reject(Error('Error opening database'));
-    }};
-
-    request.onsuccess = function(event) {{
-      const db = event.target.result;
-      const transaction = db.transaction([pageName], 'readonly');
-      const objectStore = transaction.objectStore(pageName);
-      const getRequest = objectStore.get(url);
-
-      getRequest.onerror = function(event) {{
-        reject(Error('Error retrieving data from database'));
-      }};
-
-      getRequest.onsuccess = function(event) {{
-        if (event.result) {{
-          resolve(new Response(event.target.result.html, {{ headers: {{ 'Content-Type': 'text/html' }} }}));
-        }} else {{
-          reject(Error('No data found in database'));
-        }}
-      }};
-    }};
-  }});
-}}
-"""
-
 def embed_pdf_in_html(pdf_file_path, downloader_name):
     reader_name = None
 
@@ -426,9 +301,6 @@ def embed_pdf_in_html(pdf_file_path, downloader_name):
       reader_name = generate_reader_name()
       with open('.readerName', 'w') as f:
           f.write(reader_name)
-
-    with open("public/service-worker.js", "w") as f:
-        f.write(service_worker.format(readerFile=f'{reader_name}.html'))
 
     with open(pdf_file_path, 'rb') as f:
         pdf_data = f.read()

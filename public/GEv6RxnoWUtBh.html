@@ -7,16 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
     <title>Reader</title>
-
-    <script>
-      if ('serviceWorker' in navigator) {
-        console.log('Found service worker')
-        window.addEventListener('load', function() {
-          navigator.serviceWorker.register('/service-worker.js');
-        });
-      }
-    </script>
-
   </head>
   <body>
 
@@ -60,6 +50,7 @@
       <hr>
 
       <p>Bookmark this page and come back anytime for offline reading of all saved documents.</p>
+      <p>Clearing your cache will delete all documents and the offline version of this page.</p>
 
       <button class="btn btn-primary" id="refresh" onclick="displayTableOfContents()">Refresh</button>
       <button class="btn btn-danger" onclick="deleteAll()">Delete All</button>
@@ -90,27 +81,6 @@
         const db = event.target.result;
         db.objectStoreNames.contains(storeName) || db.createObjectStore(storeName, {keyPath: 'id', autoIncrement: true});
         db.objectStoreNames.contains(pageName) || db.createObjectStore(pageName, {keyPath: 'url'});
-      }
-
-      function savePage(page) {
-        const db = dbPromise.result;
-        var html = document.documentElement.innerHTML;
-        var page = {url: 'reader.html', html: html};
-        const transaction = db.transaction([pageName], 'readwrite');
-        const objectStore = transaction.objectStore(pageName);
-        const saveRequest = objectStore.add(page);
-
-        saveRequest.onsuccess = function(event) {
-          console.log('PDF saved to IndexDB');
-        };
-
-        saveRequest.onerror = function(event) {
-          console.error('Error saving page to IndexDB');
-        };
-
-        transaction.oncomplete = function(event) {
-          console.log('Transaction complete');
-        };
       }
 
       // Display the table of contents
@@ -161,10 +131,6 @@
 
             const pdf_view = document.getElementById('pdf-display');
             pdf_view.innerHTML = '';
-        };
-
-        tx.oncomplete = function(event) {
-            savePage();
         };
 
         getRequest.onerror = function(event) {
