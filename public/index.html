@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="style.css">
+  <title>Files for Freedom</title>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-analytics.js";
+    const firebaseConfig = {
+      apiKey: "AIzaSyC7EGcbLTNDQg08xsuznx2J8Lc55m4rXY8",
+      authDomain: "files-for-freedom.firebaseapp.com",
+      projectId: "files-for-freedom",
+      storageBucket: "files-for-freedom.appspot.com",
+      messagingSenderId: "802288292226",
+      appId: "1:802288292226:web:cb87a53893ad2e83f63f9b",
+      measurementId: "G-DZRE7EE8FE"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
+</head>
+<body>
+  <!-- Nav Bar? -->
+  <nav class="navbar navbar-expand-md navbar-light" id="nav">
+    <!-- Brand -->
+    <a class="navbar-brand" href="reader.html"><img src="logo.png" alt="Document in front of nice landscape" style="width:10%"></a>
+
+    <!-- Toggler/collapsibe Button -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Navbar links -->
+    <div class="collapse navbar-collapse justify-content-end" id="collapsibleNavbar">
+      <ul class="nav navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="#">Page 1</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Page 2</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <header class="container">
+    <h1>Files For Freedom</h1>
+    <h2>Breaking the information monopoly in the places that need it most, <span class="motto_span">one file at a time</span></h2>
+  </header>
+  <!-- Site info -->
+  <div class="container">
+    <!-- Quote box -->
+    <blockquote class="blockquote">
+      <p class="mb-0">Information is the currency of democracy</p>
+      <footer class="blockquote-footer">Thomas Jefferson</footer>
+    </blockquote>
+
+
+    <h2 class="subhead">The Need</h2>
+    <h3>Right now over <span class="motto_span">2 billion</span> people around the world who live with restricted internet access due to government oppression.</h3>
+    <h3>What we consider daily life is a luxury for them.</h3>
+    <h3 class="freedom-list">freedom of speech<br>freedom of religion<br>freedom of the press<br>digital privacy</h3>
+    <h3>Are non-existent in their worlds today.</h3>
+    <h3>But you can help change that.</h3>
+
+    <h2 class="subhead">The Problem</h2>
+    <h3>To put it simply, controlling governments censor the internet by blocking website that don't align with their ideologies.</h3>
+    <h3>Once an oppressive government identifies a site hosting content they don't like, they <span class="red_motto_span">blacklist it</span> preventing anyone in the country from accessing it.</h3>
+    <h3>But what if there was a way to get to that content without </h3>
+  </div>
+  <!-- Footer -->
+  <div class="container">
+  <footer class="py-3 my-4">
+    <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Home</a></li>
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Features</a></li>
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">FAQs</a></li>
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">About</a></li>
+    </ul>
+    <p class="text-center text-muted">© 2023 Files For Freedom</p>
+  </footer>
+  </div>
+</body>
+</html>

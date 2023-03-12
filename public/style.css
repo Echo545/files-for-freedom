@@ -1,0 +1,20 @@
+.motto_span {
+    /* italics and light blue highlight */
+    font-style: italic;
+    color: #64adff;
+}
+
+.red_motto_span {
+    font-style: italic;
+    color: #f90000;
+}
+
+.subhead {
+    text-align: center;
+}
+
+.freedom-list {
+    text-align: center;
+    font-variant: small-caps;
+
+}

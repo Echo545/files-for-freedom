@@ -1,0 +1,195 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
+    <title>Reader</title>
+  </head>
+  <body>
+
+    <style>
+      .container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .container > * {
+        margin: 2px;
+        text-align: center;
+      }
+
+      .inlineview {
+        margin-left: 15px;
+      }
+
+      #table-of-contents {
+        margin: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .btn {
+        max-width: 200px;
+        margin: 0 auto;
+      }
+
+      #refresh {
+        margin-bottom: 5px;
+        margin-top:5px;
+      }
+    </style>
+
+    <div class="container">
+
+      <h1>Offline Reader</h1>
+      <hr>
+
+      <p>Bookmark this page and come back anytime for offline reading of all saved documents.</p>
+      <p>Clearing your cache will delete all documents and the offline version of this page.</p>
+
+      <button class="btn btn-primary" id="refresh" onclick="displayTableOfContents()">Refresh</button>
+      <button class="btn btn-danger" onclick="deleteAll()">Delete All</button>
+
+      <h5 style="margin-top: 25px">Available Documents</h5>
+      <hr>
+
+      <div id="table-of-contents"></div>
+      <div id="pdf-display"></div>
+
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/pako/1.0.3/pako.min.js"></script>
+    <script>
+
+      // Create a new database and object store
+      const dbName = 'pdfDatabase';
+      const storeName = 'pdfStore';
+      const pageName = 'pages';
+      const dbPromise = window.indexedDB.open(dbName, 2);
+
+      dbPromise.onsuccess = function(event) {
+        displayTableOfContents();
+      }
+
+      dbPromise.onupgradeneeded = function(event) {
+        const db = event.target.result;
+        db.objectStoreNames.contains(storeName) || db.createObjectStore(storeName, {keyPath: 'id', autoIncrement: true});
+        db.objectStoreNames.contains(pageName) || db.createObjectStore(pageName, {keyPath: 'url'});
+      }
+
+      // Display the table of contents
+    function displayTableOfContents() {
+        const db = dbPromise.result;
+        const tx = db.transaction([storeName], 'readonly');
+        const store = tx.objectStore(storeName);
+        const getRequest = store.getAll();
+
+        getRequest.onsuccess = function(event) {
+            const pdfFiles = event.target.result;
+            if (pdfFiles.length === 0) {
+            console.error('No PDF files found in IndexDB');
+            return;
+            }
+
+            const tableOfContents = document.getElementById('table-of-contents');
+            const table = document.createElement('table');
+
+            pdfFiles.forEach(function(pdfFile) {
+            const tableRow = document.createElement('tr');
+            const tableCell1 = document.createElement('td');
+            const tableCell2 = document.createElement('td');
+            const tableCell3 = document.createElement('td');
+            const viewButton = document.createElement('button');
+            viewButton.className = 'btn btn-info btn-sm inlineview';
+            const deleteButton = document.createElement('button');
+            deleteButton.className = 'btn btn-danger btn-sm';
+            tableCell1.textContent = pdfFile.file.name;
+            viewButton.textContent = 'View';
+            viewButton.addEventListener('click', function() {
+                displayPDF(pdfFile);
+            });
+            deleteButton.textContent = 'Delete';
+            deleteButton.addEventListener('click', function() {
+                deletePDF(pdfFile);
+            });
+            tableCell2.appendChild(viewButton);
+            tableCell3.appendChild(deleteButton);
+            tableRow.appendChild(tableCell1);
+            tableRow.appendChild(tableCell2);
+            tableRow.appendChild(tableCell3);
+            table.appendChild(tableRow);
+            });
+
+            tableOfContents.innerHTML = '';
+            tableOfContents.appendChild(table);
+
+            const pdf_view = document.getElementById('pdf-display');
+            pdf_view.innerHTML = '';
+        };
+
+        getRequest.onerror = function(event) {
+            console.error('Error getting PDFs from IndexDB');
+        };
+    }
+
+    function deletePDF(pdfFile) {
+        const db = dbPromise.result;
+        const tx = db.transaction([storeName], 'readwrite');
+        const store = tx.objectStore(storeName);
+        store.delete(pdfFile.id);
+        tx.oncomplete = function() {
+            console.log(`PDF file '${pdfFile.file.name}' deleted from IndexDB`);
+            displayTableOfContents();
+        };
+        tx.onerror = function(event) {
+            console.error(`Error deleting PDF file '${pdfFile.file.name}' from IndexDB`);
+        };
+    }
+
+    function deleteAll() {
+        const db = dbPromise.result;
+        const tx = db.transaction([storeName], 'readwrite');
+        const store = tx.objectStore(storeName);
+        const clearRequest = store.clear();
+
+        clearRequest.onsuccess = function(event) {
+            console.log('All PDF files deleted from IndexDB');
+
+            // remove all rows from table of contents
+            const tableOfContents = document.getElementById('table-of-contents');
+            tableOfContents.innerHTML = '';
+        };
+    }
+
+    function displayPDF(pdfFile) {
+        const pdfDisplay = document.getElementById('pdf-display');
+        pdfDisplay.innerHTML = '';
+
+        const fileReader = new FileReader();
+
+        fileReader.onload = function() {
+            const pdfData = new Uint8Array(this.result);
+            var deflate = window.pako.inflate(pdfData)
+            const blob = new Blob([deflate], { type: 'application/pdf' });
+            const url = URL.createObjectURL(blob);
+
+            const embed = document.createElement('object');
+            embed.setAttribute('data', url);
+            embed.setAttribute('type', 'application/pdf');
+            embed.setAttribute('width', '100%');
+            embed.setAttribute('height', '800px');
+            pdfDisplay.appendChild(embed);
+        };
+
+        fileReader.readAsArrayBuffer(pdfFile.file);
+    }
+
+    </script>
+    </body>
+</html>
