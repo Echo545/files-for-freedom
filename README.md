@@ -19,26 +19,14 @@ To learn about the mission behind the Files for Freedom movement, the technical 
 * Then it will redirect the user to the _/[reader].html_ page where all the saved PDF's can be easy read and managed.
 
 ----
-### Outputs description
+### Output Description
 **downloader .html file:**
  * This file will be what the user visits in order to download the [pdf to encode]
  * Will also have name given [downloader name]
 
 **reader .html file:**
- * This file is what the downloaders will redirect to, to read the pdf's they have in cache
- * Will have basic controls for seeing whats there, viewing, and deleting content
- * This is also the page that will be cached, so the user can come back to this page offline
- * The user can also come back to the website has been taken down, as long as the cache doesn't get cleared or updated
-
+ * This file is what the download pages redirect to, it is a simple page to view and easily read all saved documents.
+ * This is also the page that will be cached, so the user can come back to this page offline for reading at anytime.
 
 **.readerName:**
- * holds the name of the reader .html
- * so that there aren't many readers but just one
-
-----
-### Outputs file paths
-#### All public files need to be served
-#### Do **not** serve the .readerName
-* public/[downloader].html
-* public/[randomstring readerfile].html
-* .readerName
+ * Keeps track of the randomly generated name of the reader page.
