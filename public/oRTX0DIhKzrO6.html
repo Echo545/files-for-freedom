@@ -38,13 +38,11 @@
         const db = event.target.result;
         db.objectStoreNames.contains(storeName) || db.createObjectStore(storeName, {keyPath: 'id', autoIncrement: true});
         db.objectStoreNames.contains(pageName) || db.createObjectStore(pageName, {keyPath: 'url'});
-
-        displayTableOfContents();
       }
 
       // Display table of contents and save page upon page load
       window.onload = function() {
-
+      //  displayTableOfContents();
         savePage();
       }
 
@@ -57,7 +55,7 @@
         const saveRequest = objectStore.add(page);
 
         saveRequest.onsuccess = function(event) {
-          console.log('Page saved to IndexDB');
+          console.log('PDF saved to IndexDB');
         };
 
         saveRequest.onerror = function(event) {

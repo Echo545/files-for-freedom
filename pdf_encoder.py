@@ -124,10 +124,10 @@ reader_template = """
       }}
 
       // Display table of contents and save page upon page load
-      window.onload = function() {{
-        displayTableOfContents();
-        savePage();
-      }}
+      // window.onload = function() {{
+      //  displayTableOfContents();
+      //  savePage();
+      // }}
 
       function savePage(page) {{
         const db = dbPromise.result;
