@@ -5,11 +5,19 @@ Support free access to information using nothing more than your existing web ser
 To learn about the mission behind the Files for Freedom movement, and to see a live demo, visit (files-for-freedom.web.app)[https://files-for-freedom.web.app/]
 
 ## How it works
+### Dev:
+![dev dia](imgs/jamdev.jpg)  
+* Dev runs the python script for each pdf, it generates each _/[download].html_ and a single _/[reader].html_
+* All the dev has to do is put those files in a secret directory hosted on their website, or root
 
+### User:
+![user dia](imgs/jamuser.jpg)  
+* User will go to a _/[download].html_ (which they know by word of mouth) and on that page the pdf will be put into cache  
+* Then it will redirect the user to the _/[reader].html_ page
 
 ----
 ## How to use it
-pdf_encoder.py [pdf to encode] [downloader name]
+```python3 pdf_encoder.py [pdf to encode] [downloader name]```
 
 ### Outputs description
 **downloader .html file:**
@@ -22,8 +30,6 @@ pdf_encoder.py [pdf to encode] [downloader name]
  * This is also the page that will be cached, so the user can come back to this page offline
  * The user can also come back to the website has been taken down, as long as the cache doesn't get cleared or updated
 
-**service-worker.js:**
- * makes sure that the reader .html file gets cached
 
 **.readerName:**
  * holds the name of the reader .html
@@ -32,8 +38,7 @@ pdf_encoder.py [pdf to encode] [downloader name]
 ----
 ### Outputs file paths
 #### All public files need to be served
-#### .readerName is **not** served
-public/[downloader].html
-public/[randomstring readerfile].html
-public/service-worker.js
-.readerName
+#### Do **not** serve the .readerName
+* public/[downloader].html  
+* public/[randomstring readerfile].html  
+* .readerName  
