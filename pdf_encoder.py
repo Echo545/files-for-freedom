@@ -148,6 +148,9 @@ reader_template = """
 
       <h1>Offline Reader</h1>
       <hr>
+
+      <p>Bookmark this page and come back anytime for offline reading of all saved documents.</p>
+
       <button class="btn btn-primary" id="refresh" onclick="displayTableOfContents()">Refresh</button>
       <button class="btn btn-danger" onclick="deleteAll()">Delete All</button>
 
@@ -169,17 +172,15 @@ reader_template = """
       const pageName = 'pages';
       const dbPromise = window.indexedDB.open(dbName, 2);
 
+      dbPromise.onsuccess = function(event) {{
+        displayTableOfContents();
+      }}
+
       dbPromise.onupgradeneeded = function(event) {{
         const db = event.target.result;
         db.objectStoreNames.contains(storeName) || db.createObjectStore(storeName, {{keyPath: 'id', autoIncrement: true}});
         db.objectStoreNames.contains(pageName) || db.createObjectStore(pageName, {{keyPath: 'url'}});
       }}
-
-      // Display table of contents and save page upon page load
-      // window.onload = function() {{
-      //  displayTableOfContents();
-      //  savePage();
-      // }}
 
       function savePage(page) {{
         const db = dbPromise.result;
@@ -250,6 +251,10 @@ reader_template = """
 
             const pdf_view = document.getElementById('pdf-display');
             pdf_view.innerHTML = '';
+        }};
+
+        tx.oncomplete = function(event) {{
+            savePage();
         }};
 
         getRequest.onerror = function(event) {{

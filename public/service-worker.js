@@ -4,7 +4,7 @@ const CACHE_NAME = 'freedom-files';
 const pageName = 'pages'
 const dbName = 'pdfDatabase'
 const urlsToCache = [
-  '/lH6KD8Y1qctCq2Mp4t.html'
+  '/4nDI0WO9KiV37AN.html'
 ];
 
 // Install event listener for service worker
