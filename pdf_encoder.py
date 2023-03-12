@@ -182,8 +182,8 @@ reader_template = """
         getRequest.onsuccess = function(event) {{
             const pdfFiles = event.target.result;
             if (pdfFiles.length === 0) {{
-            console.error('No PDF files found in IndexDB');
-            return;
+              console.log('No PDF files found in IndexDB');
+              return;
             }}
 
             const tableOfContents = document.getElementById('table-of-contents');
@@ -223,7 +223,7 @@ reader_template = """
         }};
 
         getRequest.onerror = function(event) {{
-            console.error('Error getting PDFs from IndexDB');
+            console.log('No PDFs in IndexDB');
         }};
     }}
 

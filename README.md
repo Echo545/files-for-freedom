@@ -4,21 +4,21 @@ Support free access to information using nothing more than your existing web ser
 
 To learn about the mission behind the Files for Freedom movement, the technical details, and to see a live demo, visit [files-for-freedom.web.app](https://files-for-freedom.web.app/)
 
+## Usage
+```python3 pdf_encoder.py [pdf to encode] [downloader page name]```
+
 ## How it works
 ### Host:
 ![dev dia](imgs/jamdev.jpg)
-* Dev runs the python script for each pdf, it generates each _/[download].html_ and a single _/[reader].html_
-* All the dev has to do is put those files in a secret directory hosted on their website, or root
+* Run the python tool for each target pdf. The tool generates a _/[downloader page].html_ and a single _/[reader].html_
+* Then all the host has to do is put the newly generated HTML in their web server and share the URL.
 
 ### User:
 ![user dia](imgs/jamuser.jpg)
-* User will go to a _/[download].html_ (which they know by word of mouth) and on that page the pdf will be put into cache
-* Then it will redirect the user to the _/[reader].html_ page
+* User visits _/[downlaoder page].html_  and on that page the pdf will be saved in their indexDB cache
+* Then it will redirect the user to the _/[reader].html_ page where all the saved PDF's can be easy read and managed.
 
 ----
-## Usage
-```python3 pdf_encoder.py [pdf to encode] [downloader name]```
-
 ### Outputs description
 **downloader .html file:**
  * This file will be what the user visits in order to download the [pdf to encode]
