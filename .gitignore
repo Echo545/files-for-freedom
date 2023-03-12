@@ -2,3 +2,4 @@ test.py
 *.pdf
 extract_text.py
 output/
+.readerName

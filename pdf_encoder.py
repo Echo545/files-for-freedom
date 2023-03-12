@@ -11,10 +11,10 @@ html_template = """
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>{pdf_name}</title>
+  <title>Downloader</title>
 </head>
 <body>
-  <h1>{pdf_name}</h1>
+  <h1>Download in Progress...</h1>
 
   <script>
     const dbName = 'pdfDatabase';

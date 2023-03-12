@@ -2,3 +2,9 @@
 image: filesforfreedom
 include:
   template: Jobs/Code-Quality.gitlab-ci.yml
+
+before_script:
+  - npm i -g firebase-tools
+
+script:
+  - firebase deploy --token $FIREBASE_TOKEN
