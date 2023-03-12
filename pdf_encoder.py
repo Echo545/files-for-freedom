@@ -116,7 +116,8 @@ reader_template = """
       // Create a new database and object store
       const dbName = 'pdfDatabase';
       const storeName = 'pdfStore';
-      const dbPromise = window.indexedDB.open(dbName, 1);
+      const PageName = 'pages';
+      const dbPromise = window.indexedDB.open(dbName, 2);
 
       dbPromise.onupgradeneeded = function(event) {{
         const db = event.target.result;
