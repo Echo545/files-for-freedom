@@ -10,60 +10,89 @@
 </head>
 <body>
   <!-- Nav Bar? -->
-  <nav class="navbar navbar-expand-md navbar-light" id="nav">
-    <!-- Brand -->
-    <a class="navbar-brand" href="reader.html"><img src="logo.png" alt="Document in front of nice landscape" style="width:10%"></a>
-
-    <!-- Toggler/collapsibe Button -->
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <!-- Navbar links -->
-    <div class="collapse navbar-collapse justify-content-end" id="collapsibleNavbar">
-      <ul class="nav navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" href="#">Page 1</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Page 2</a>
-        </li>
-      </ul>
-    </div>
+  <nav class="navbar navbar-light bg-light">
+    <img src="imgs/logo.png" width="100" class="d-inline-block align-top rounding" alt="">
   </nav>
-  <header class="container">
-    <h1>Files For Freedom</h1>
-    <h2>Breaking the information monopoly in the places that need it most, <span class="motto_span">one file at a time</span></h2>
-  </header>
   <!-- Site info -->
-  <div class="container">
-    <!-- Quote box -->
-    <blockquote class="blockquote">
-      <p class="mb-0">Information is the currency of democracy</p>
-      <footer class="blockquote-footer">Thomas Jefferson</footer>
-    </blockquote>
-
-
-    <h2 class="subhead">The Need</h2>
-    <h3>Right now over <span class="motto_span">2 billion</span> people around the world who live with restricted internet access due to government oppression.</h3>
-    <h3>What we consider daily life is a luxury for them.</h3>
-    <h3 class="freedom-list">freedom of speech<br>freedom of religion<br>freedom of the press<br>digital privacy</h3>
-    <h3>Are non-existent in their worlds today.</h3>
-    <h3>But you can help change that.</h3>
-
-    <h2 class="subhead">The Problem</h2>
-    <h3>To put it simply, controlling governments censor the internet by blocking website that don't align with their ideologies.</h3>
-    <h3>Once an oppressive government identifies a site hosting content they don't like, they <span class="red_motto_span">blacklist it</span> preventing anyone in the country from accessing it.</h3>
-    <h3>But what if there was a way to get to that content without </h3>
+  <div class="wrapper">
+    <div class="section1 container top">
+      <div class="center-motto">
+        <h1 style="font-size: 400%;">Files For Freedom</h1>
+      </div>
+      <div class="center-motto">
+        <h2>Breaking the information monopoly in the places that need it most, </h2><br/>
+        <h1>
+          <span class="motto_span">One File at a Time</span>
+        </h1>
+      </div>
+      <!-- Quote box -->
+      <footer>
+        <blockquote class="blockquote center">
+          <p class="mb-0">Information is the currency of democracy.</p>
+          <footer class="blockquote-footer">Thomas Jefferson</footer>
+        </blockquote>
+      </footer>
+    </div>
+    <div class="container section2">
+        <!-- Problem -->
+        <div class="">
+          <h2 class="subhead">The Problem</h2>
+        </div>
+        <div class="multitext">
+          <h3 class="flexItem">Right now over <span class="motto_span">2 billion</span> people around the world live with restricted internet access due to government oppression.</h3>
+          <h3 class="flexItem">To put it simply, controlling governments censor the internet by blocking websites that don't align with their ideologies.</h3>
+          <h3 class="flexItem">Once an oppressive government identifies a site hosting content they don't like, they <span class="red_motto_span">blacklist it</span> preventing anyone in the country from accessing it.</h3>
+        </div>
+        <!-- Need -->
+        <div class="wrapper">
+          <div>
+            <h2 class="subhead">The Need</h2>
+          </div>
+          <div style="margin: 2% auto">
+            <h3>What we consider daily life is a luxury for them:</h3>
+          </div>
+          <div class="freedom center">
+            <h3 class="freedom-list">
+              freedom of <span style="color: #64adff;">speech</span><br>
+              freedom of <span style="color: #fafad2;">religion</span><br>
+              freedom of <span style="color: #1ee82cd8;">the press</span><br>
+              <span style="color: #d82222;">digital privacy</span>
+            </h3>
+          </div>
+          <h3>Are all non-existent in their worlds today.</h3>
+        </div>
+    </div>
+    <div>
+      <div class="container space" style="align-content: center;">
+        <!-- Stats -->
+        <div class="row border">
+          <div class="col space"><h4>~4.7 Billion Active Internet Users Across the Globe</h4></div>
+          <div class="col space"><h4>35% of Global Internet Users are Not Free</h4></div>
+          <div class="w-100"></div>
+          <div class="col space"><h4>29% of Global Internet Users are Partly Free</h4></div>
+          <div class="col space"><h4>Only 24% of Global Internet are Truly Free</h4></div>
+        </div>
+        <div>
+          <p style="font-size: xx-small;">*According to Freedom House's 2016 study*</p>
+        </div>
+        <img src="imgs/censorMap.png" alt="" width="1000" class="coolCenter">
+      </div>
+    </div>
+    <!-- Solution -->
+    <div class="container solution">
+      <div class="wrapper">
+        <h2 class="subhead">The Solution</h2>
+      </div>
+      <h3>What if there was a way to deliver content via websites without having the site permanently banned?</h3>
+    </div>
   </div>
   <!-- Footer -->
   <div class="container">
-  <footer class="py-3 my-4">
-    <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+    <footer class="py-3 my-4">
+      <ul class="nav justify-content-center border-bottom pb-3 mb-3">
       <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Home</a></li>
-      <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Features</a></li>
-      <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">FAQs</a></li>
       <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">About</a></li>
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">FAQs</a></li>
     </ul>
     <p class="text-center text-muted">© 2023 Files For Freedom</p>
   </footer>
